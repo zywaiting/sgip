@@ -1,7 +1,6 @@
 package com.zy.demo.protocol.sgip.thread;
 
 
-import com.zy.demo.protocol.SendSms;
 import com.zy.demo.protocol.sgip.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +25,13 @@ public class ListenThread extends Thread {
 	private ServerSocket socketListener;
 	//网关会话对象
 	private Session session;
-	
+
 	
 	
 	/** 构造方法 */
 	public ListenThread(Session ssn) throws IOException {
 		this.session = ssn;
-		this.socketListener = new ServerSocket(session.getLocalPort());//启动服务套接字
+		this.socketListener = new ServerSocket(11913);//启动服务套接字
 	}
 
 	
@@ -42,6 +41,7 @@ public class ListenThread extends Thread {
 			while(bLoop){
 				LOGGER.info("------------获取状态-----------");
 				Socket socketinfo = socketListener.accept();//阻塞状态
+				LOGGER.info("-----------开始获取状态--------------");
 				new Thread(new HandleThread(socketinfo, session)).start();
 			}
 		} catch (SocketException socketexception) {
