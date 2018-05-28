@@ -2,6 +2,8 @@ package com.zy.demo.protocol.sgip.msg;
 
 
 import com.zy.demo.protocol.tools.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class MsgHead {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MsgHead.class);
 
 	private int  length;//消息长度
 	private int  command;//消息命令
@@ -33,6 +36,7 @@ public class MsgHead {
 		// 读取头部信息20个字节
 		byte head[] = new byte[20];
 		int rc = in.read(head);
+		LOGGER.info("rc的大小:{}",rc);
 		if (rc < 20) {
 			throw new EOFException(String.valueOf(rc));
 		} else {

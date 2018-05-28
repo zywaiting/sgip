@@ -6,8 +6,11 @@ import com.zy.demo.protocol.exception.ConnectionException;
 import com.zy.demo.protocol.sgip.conn.Connection;
 import com.zy.demo.protocol.sgip.msg.*;
 import com.zy.demo.protocol.sgip.thread.ListenThread;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -18,7 +21,9 @@ import java.util.TimerTask;
  * 抽象网关会话类
  * @author marker
  * */
-public abstract class Session {
+public  class Session {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Session.class);
 	
 	//网关连接对象
 	private Connection conn;
@@ -74,10 +79,10 @@ public abstract class Session {
 			closeNotException();
 		if (bind_bak != bind)
 			bind_bak = bind;
-		if (listenThread == null) {
+		/*if (listenThread == null) {
 			listenThread = new ListenThread(this);
 			listenThread.start();
-		}
+		}*/
 		try{
 			conn.open();
 			connected = true;
@@ -174,10 +179,33 @@ public abstract class Session {
 	
 	
 	
-	public abstract void onMessage(Deliver deliver);
-	public abstract void onReport(Report report);
-	public abstract void onTerminate(); 
-	
+	//public abstract void onMessage(Deliver deliver);
+	//public abstract void onReport(Report report);
+	//public abstract void onTerminate();
+
+	public void onReport(Report report) {
+		LOGGER.info("----------------状态报告-------------");
+		LOGGER.info("发送状态:{},序列号;{}",report.getResult(),report.getSubmitSeq());
+		LOGGER.info("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
+		//System.out.println("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
+
+	}
+
+	public void onMessage(Deliver deliver) {
+		LOGGER.info("----------------上行回复---------------");
+		//System.out.println("收到短信");
+		try {
+			LOGGER.info("手机:{},短信内容:{},标识:{}", deliver.getUserNumber(), new String(deliver.getContent(), "GBK"), deliver.getReserve());
+			LOGGER.info("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
+			//System.out.println("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void onTerminate() {
+		LOGGER.info("------------断开连接--------------");
+	}
  
 	
  

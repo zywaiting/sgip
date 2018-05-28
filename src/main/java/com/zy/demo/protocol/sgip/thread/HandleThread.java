@@ -82,6 +82,7 @@ public class HandleThread extends Thread {
 			}
 			return;
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOGGER.info("与SMG服务器链接异常");
 			//System.out.println("与SMG服务器链接异常");
 		} finally {

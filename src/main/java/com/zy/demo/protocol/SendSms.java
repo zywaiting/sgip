@@ -17,7 +17,7 @@ public class SendSms {
 
         Bind bind = new Bind(1, "106550530008", "106550530008", 3053191173L);
         LOGGER.info("-----------登陆中-----------");
-        Session session = new Session(conn) {
+        Session session = new Session(conn);/* {
 
             @Override
             public void onReport(Report report) {
@@ -40,7 +40,7 @@ public class SendSms {
             public void onTerminate() {
                 LOGGER.info("------------断开连接--------------");
             }
-        };
+        };*/
         //本地用户帐号密码（网关访问本地参数）
         //session.setLocalUser("106550530008");
         //session.setLocalPass("106550530008");
