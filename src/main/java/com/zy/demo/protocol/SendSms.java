@@ -12,7 +12,7 @@ public class SendSms {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendSms.class);
 
-    public static void sendSms(String mobile, String content ,String extNo) throws Exception {
+    public static void sendSms(String mobile, String content ,String extNo, String identifier) throws Exception {
         Connection conn = new Connection("119.163.122.85", 8801);
 
         Bind bind = new Bind(1, "106550530008", "106550530008", 3053191173L);
@@ -23,9 +23,6 @@ public class SendSms {
             public void onReport(Report report) {
                 LOGGER.info("----------------状态报告-------------");
                 LOGGER.info("发送状态:{},序列号;{}",report.getResult(),report.getSubmitSeq());
-                LOGGER.info("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
-                //System.out.println("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
-
             }
 
             @Override
@@ -34,8 +31,6 @@ public class SendSms {
                 //System.out.println("收到短信");
                 try {
                     LOGGER.info("手机:{},短信内容:{},标识:{}", deliver.getUserNumber(), new String(deliver.getContent(), "GBK"), deliver.getReserve());
-                    LOGGER.info("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
-                    //System.out.println("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -56,7 +51,7 @@ public class SendSms {
         LOGGER.info("登录状态;{}",resp.getResult());
 
 
-        String SPNumber = "106550530008";// +extNo; "001";//之后为附加码
+        String SPNumber = "106550530008" +extNo; //"001";//之后为附加码
         String ChargeNumber = "106550530008";
         String[] UserNumber = mobile.split(",");//"8618660776642".split(",");//拆分手机号码
         String CorpId = "91173";
@@ -89,7 +84,7 @@ public class SendSms {
                 nodeid, ServiceType, FeeType, FeeValue, GivenValue, AgentFlag,
                 MorelatetoMTFlag, Priority, ExpireTime, ScheduleTime,
                 ReportFlag, MessageCoding, MessageType, MessageContent,
-                MessageLen, reserve);
+                MessageLen, reserve, identifier);
 
         SubmitResp sresp = (SubmitResp) session.sendSubmit(s);
 
@@ -110,7 +105,8 @@ public class SendSms {
         String mobile ="8618660776642";
         String content = "您本次的验证码是：1234";
         String extNo = "";
-        sendSms(mobile,content,extNo);
+        String identifier = "";
+        sendSms(mobile,content,extNo,identifier);
     }
 
 }

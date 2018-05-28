@@ -87,7 +87,9 @@ public class Submit extends Message {
 			int MessageType,
 	       byte[] MessageContent,
 	       int MessageContentLength,
-	       String Reserve) {
+	       String Reserve,
+			String Identifier//唯一标识
+			 ) {
 		super(Message.SGIP_SUBMIT);
 		this.TP_pid = TP_pid;
 		this.TP_udhi = TP_udhi;
@@ -112,7 +114,7 @@ public class Submit extends Message {
 		this.NodeId = NodeId;
 		super.getHead().setSequence1(NodeId);//设置通信节点命令源
 		super.getHead().setSequence2(Tools.getCurrentSequenceDate());
-		super.getHead().setSequence3(Sequence.next());
+		super.getHead().setSequence3(Integer.valueOf(Identifier));
 	}
 	
 	
