@@ -79,10 +79,6 @@ public  class Session {
 			closeNotException();
 		if (bind_bak != bind)
 			bind_bak = bind;
-		/*if (listenThread == null) {
-			listenThread = new ListenThread(this);
-			listenThread.start();
-		}*/
 		try{
 			conn.open();
 			connected = true;
@@ -113,11 +109,6 @@ public  class Session {
 	 * */
 	public Message sendSubmit(Submit msg) throws Exception {
 		startTimer();
-		
-		
-		
-		
-		
 		if (!isConnected() || !isBound())
 			open(bind_bak);
 		try { 
@@ -141,7 +132,6 @@ public  class Session {
 				 Session.this.closeNotException();
 			}
 		}, freeTime);
-		
 	}
 	
 	/**
@@ -173,31 +163,17 @@ public  class Session {
 		}
 	}
 	
-	
- 
-	
-	
-	
-	
-	//public abstract void onMessage(Deliver deliver);
-	//public abstract void onReport(Report report);
-	//public abstract void onTerminate();
+
 
 	public void onReport(Report report) {
 		LOGGER.info("----------------状态报告-------------");
 		LOGGER.info("发送状态:{},序列号;{}",report.getResult(),report.getSubmitSeq());
-		LOGGER.info("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
-		//System.out.println("发送状态：" + report.getResult() + " 序列号：" + report.getSubmitSeq());
-
 	}
 
 	public void onMessage(Deliver deliver) {
 		LOGGER.info("----------------上行回复---------------");
-		//System.out.println("收到短信");
 		try {
 			LOGGER.info("手机:{},短信内容:{},标识:{}", deliver.getUserNumber(), new String(deliver.getContent(), "GBK"), deliver.getReserve());
-			LOGGER.info("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
-			//System.out.println("手机：" + deliver.getUserNumber() + " 短信内容：" + new String(deliver.getContent(), "GBK") + " 标识" + deliver.getReserve());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

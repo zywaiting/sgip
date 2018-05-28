@@ -40,7 +40,8 @@ public class SgipServiceImpl implements SgipService{
             String mobile = request.getParameter("mobile");
             String content = request.getParameter("content");
             String extNo = request.getParameter("extNo");
-            SendSms.sendSms(mobile,content,extNo);
+            String identifier = request.getParameter("identifier");
+            SendSms.sendSms(mobile, content, extNo, identifier);
         } catch (Exception e){
             e.printStackTrace();
         }
