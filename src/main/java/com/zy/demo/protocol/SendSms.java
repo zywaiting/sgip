@@ -13,9 +13,9 @@ public class SendSms {
     private static final Logger LOGGER = LoggerFactory.getLogger(SendSms.class);
 
     public static void sendSms(String mobile, String content ,String extNo, String identifier) throws Exception {
-        Connection conn = new Connection("119.163.122.85", 8801);
+        Connection conn = new Connection("host", 8080);
 
-        Bind bind = new Bind(1, "106550530008", "106550530008", 3053191173L);
+        Bind bind = new Bind(1, "10655053", "10655053", 3053191173L);
         LOGGER.info("-----------登陆中-----------");
         Session session = new Session(conn);/* {
 
@@ -42,20 +42,19 @@ public class SendSms {
             }
         };*/
         //本地用户帐号密码（网关访问本地参数）
-        //session.setLocalUser("106550530008");
-        //session.setLocalPass("106550530008");
-        session.setLocalPort(11913);
+
+        session.setLocalPort(1191);
 
         BindResp resp = session.open(bind);
 
         LOGGER.info("登录状态;{}",resp.getResult());
 
 
-        String SPNumber = "106550530008" +extNo; //"001";//之后为附加码
-        String ChargeNumber = "106550530008";
+        String SPNumber = "106550538" +extNo; //"001";//之后为附加码
+        String ChargeNumber = "10655058";
         String[] UserNumber = mobile.split(",");//"8618660776642".split(",");//拆分手机号码
-        String CorpId = "91173";
-        String ServiceType = "9917001262";
+        String CorpId = "911";
+        String ServiceType = "9917001";
         int FeeType = 2;
         int FeeValue = 0;
         int GivenValue = 0;
